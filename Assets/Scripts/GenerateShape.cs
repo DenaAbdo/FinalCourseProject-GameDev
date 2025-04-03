@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.TerrainTools;
-
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
+using UnityEngine.SceneManagement;
 public class GenerateShape : MonoBehaviour
 {
     private Color[] colorsArr = new Color[] { Color.red, Color.green, Color.blue };
@@ -12,15 +13,53 @@ public class GenerateShape : MonoBehaviour
     private int numberOfSides;
     public GameObject prefab;
     public float instantiationYPosition = -10f;
-
+    GameManager gameManager = new GameManager();
+    
     // Range for random X and Z positions
-    public float minX = 1f;
-    public float maxX = 100f;
-    public float minZ = 1f;
-    public float maxZ = 100f;
-
+    private float minX = 2.5f;
+    private  float maxX = 100f;
+    private  float minZ = 0f;
+    private float maxZ = 100f;
+    private float minY = 0f;
+    private float maxY = 0f;
+    string myTag;
     // Start is called before the first frame update
     void Start()
+    {
+        myTag = gameObject.tag;
+        getColorNum();
+        checkType();
+        answer = multiply * numberOfSides;
+        int newInt = answer + 10;
+        int loop = newInt / 6;
+        int  count = 0;
+        while (count < 6) {
+            for (int i = 0; i < loop; i++)
+            {
+                Random.InitState(System.DateTime.Now.Millisecond);
+                instantiateObjects();
+            }
+            count++;
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (checkIfWin())
+        {
+            gameManager.LoadNextScene();
+        }
+        if (checkLoss())
+        {
+            SceneManager.LoadScene("LostScreen");
+        }
+    }
+    public int getAnswer()
+    {
+        return answer;
+    }
+    int getColorNum()
     {
         assignedColor = colorsArr[Random.Range(0, colorsArr.Length)];
         GetComponent<MeshRenderer>().material.color = assignedColor;
@@ -41,53 +80,69 @@ public class GenerateShape : MonoBehaviour
         {
             multiply = 1;
         }
-
-
-        checkType();
-        answer = multiply * numberOfSides;
-        instantiateObjects(answer);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        return multiply;
     }
     void checkType()
     {
-        MeshFilter meshFilter = GetComponent<MeshFilter>();
-
-        // Check if the MeshFilter has a mesh and the mesh is a cube primitive
-        if (meshFilter != null && meshFilter.sharedMesh != null)
+        if (myTag != null )
         {
 
-            if (meshFilter.sharedMesh.name.ToLower().Contains("cube"))
+            if (myTag == "Cube")
             {
                 numberOfSides = 12;
             }
-            else if (meshFilter.sharedMesh.name.ToLower().Contains("quad"))
+            else if (myTag == "Quad")
             {
                 numberOfSides = 4;
             }
-            else //if(meshFilter.sharedMesh.name.ToLower().Contains("sphere"))
+            else if (myTag == "Sphere")
             {
-                numberOfSides = 1;
+                numberOfSides = (int)(0.5 * 3.14);
+            }
+            else //it will be cylinder with r =1 
+            {
+                numberOfSides = (int)(1* 3.14);
             }
         }
+    }
+    void instantiateObjects()
+    {
+        // Call this before random operations to set a new random seed
+        //Random.InitState(System.DateTime.Now.Millisecond);
+       // float randomX = Random.Range(minX, maxX);
+        //float randomZ = Random.Range(minZ, maxZ);
+
+        // Instantiate the object at the specified Y-axis position and random X-Z positions
+        Random.InitState(System.DateTime.Now.Millisecond);
+        Vector3 newPos = new Vector3(Random.Range(minX, maxX), minY, Random.Range(minZ, maxZ));
+        GameObject instantiatedObj =  Instantiate(prefab,newPos , Quaternion.identity);
+       
+        instantiatedObj.tag="pickUpObj";
+            instantiatedObj.AddComponent<PickUp>();
 
     }
-    void instantiateObjects(int number)
+    bool checkIfWin()
     {
-
-            for(int i=0; i < number; i++)
+        Debug.Log("counter: "+ PickUp.getCounter());
+        Debug.Log("answer: " + answer);
+        if(PickUp.getCounter() == getAnswer())
         {
-            float randomX = Random.Range(minX, maxX);
-            float randomZ = Random.Range(minZ, maxZ);
-
-            // Instantiate the object at the specified Y-axis position and random X-Z positions
-            // Call this before your random operations to set a new random seed
-            Random.InitState(System.DateTime.Now.Millisecond);
-            Instantiate(prefab, new Vector3(randomX, -2.5f, randomZ), Quaternion.identity);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    bool checkLoss()
+    {
+        if(PickUp.getCounter() > answer)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 }

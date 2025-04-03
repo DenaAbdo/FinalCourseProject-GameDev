@@ -5,6 +5,13 @@ TagManager:
   serializedVersion: 2
   tags:
   - JumpOn
+  - pickUpObj
+  - Target
+  - Cube
+  - Sphere
+  - Capsule
+  - Quad
+  - Cylinder
   layers:
   - Default
   - TransparentFX

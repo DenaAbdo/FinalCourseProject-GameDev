@@ -362,7 +362,13 @@
 "Assets/Mini First Person Controller/Scripts/Components/Zoom.cs"
 "Assets/Mini First Person Controller/Scripts/FirstPersonLook.cs"
 "Assets/Mini First Person Controller/Scripts/FirstPersonMovement.cs"
+"Assets/Scripts/GameManager.cs"
 "Assets/Scripts/GenerateShape.cs"
+"Assets/Scripts/InstantiateObjects.cs"
+"Assets/Scripts/LevelManager.cs"
+"Assets/Scripts/PickUp.cs"
+"Assets/Scripts/StartPlaying.cs"
+"Assets/Scripts/Steal.cs"
 -langversion:9.0
 
 /deterministic

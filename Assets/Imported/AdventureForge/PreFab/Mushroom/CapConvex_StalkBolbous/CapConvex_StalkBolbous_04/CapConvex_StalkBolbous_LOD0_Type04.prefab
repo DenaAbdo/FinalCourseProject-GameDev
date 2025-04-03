@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2360966}
   - component: {fileID: 1259068095707577890}
   - component: {fileID: 3892720516782754571}
+  - component: {fileID: 3877049744638252290}
   m_Layer: 0
   m_Name: CapConvex_StalkBolbous_LOD0_Type04
   m_TagString: Untagged
@@ -170,3 +171,25 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!64 &3877049744638252290
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195220}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: feb7130396d774b419a66f9767cbcb2e, type: 3}
